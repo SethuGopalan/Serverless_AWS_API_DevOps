@@ -28,27 +28,35 @@ jobs:
           curl -fsSL https://get.pulumi.com | sh
           echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
 
-      - name: Install Nitric CLI (Manual Download)
+      - name: Install Nitric CLI (Robust)
         run: |
+          mkdir -p "$HOME/.nitric/bin"
+
           NITRIC_VERSION="1.27.2"
           NITRIC_ARCHIVE="aws_linux_x86_64.tar.gz"
           NITRIC_URL="https://github.com/nitrictech/nitric/releases/download/v${NITRIC_VERSION}/${NITRIC_ARCHIVE}"
 
-          echo "Downloading Nitric CLI from GitHub Releases: $NITRIC_URL"
-          curl -L $NITRIC_URL -o nitric-cli.tar.gz
+          echo "Downloading Nitric CLI from $NITRIC_URL..."
+          curl -L "$NITRIC_URL" -o nitric-cli.tar.gz
 
-          FILE_SIZE=$(stat -c%s "nitric-cli.tar.gz")
-          echo "Downloaded file size: $FILE_SIZE bytes"
-          if [ "$FILE_SIZE" -lt 1000000 ]; then
-              echo "Error: Downloaded file is too small."
+          TEMP_EXTRACT_DIR=$(mktemp -d)
+          echo "Extracting to $TEMP_EXTRACT_DIR"
+          tar -xzf nitric-cli.tar.gz -C "$TEMP_EXTRACT_DIR"
+
+          NITRIC_BIN_PATH=$(find "$TEMP_EXTRACT_DIR" -type f -name "nitric" -executable -print -quit)
+
+          if [ -z "$NITRIC_BIN_PATH" ]; then
+              echo " 'nitric' binary not found!"
+              ls -R "$TEMP_EXTRACT_DIR"
               exit 1
           fi
 
-          echo "Extracting Nitric CLI..."
-          mkdir -p "$HOME/.nitric/bin"
-          tar -xzf nitric-cli.tar.gz -C "$HOME/.nitric/bin" --strip-components=1
-          echo "Adding to PATH for current shell session..."
-          export PATH="$HOME/.nitric/bin:$PATH"
+          echo " Found nitric at $NITRIC_BIN_PATH"
+          mv "$NITRIC_BIN_PATH" "$HOME/.nitric/bin/"
+          rm -rf "$TEMP_EXTRACT_DIR"
+
+          echo "$HOME/.nitric/bin" >> $GITHUB_PATH
+          export PATH="$PATH:$HOME/.nitric/bin"
 
           echo "Adding to GitHub Actions PATH for future steps..."
 
