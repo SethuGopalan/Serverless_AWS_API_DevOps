@@ -1,9 +1,8 @@
 name: population-api-project
 project: serverless_population
-# --- ADD THIS STACKS SECTION ---
+
 stacks:
-  dev: ./nitric.dev.yml # This links the 'dev' stack name to its configuration file
-# --- END STACKS SECTION ---
+  dev: ./nitric.dev.yml
 
 resources:
   - name: population-api
@@ -15,10 +14,10 @@ services:
     docker:
       dockerfile: ./python.dockerfile
       context: ./services
-    main: services/api.py
+    main: api.py
     match: "**/*.py"
     env:
-      HANDLER: services/api:main
+      HANDLER: api:main
       PORT: "4001"
     triggers:
       - type: http
