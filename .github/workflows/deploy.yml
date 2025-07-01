@@ -59,13 +59,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Register Nitric stack
-        run: |
-          nitric stack register -f nitric.dev.yaml
+      # - name: Register Nitric stack
+      #   run: |
+      #     nitric stack register -f nitric.dev.yaml
 
-      - name: Update Nitric stack
-        run: |
-          nitric stack update -s dev --non-interactive
+      # - name: Update Nitric stack
+      #   run: |
+      #     nitric stack update -s dev --non-interactive
 
       - name: Deploy with Nitric
-        run: nitric stack update -s dev --non-interactive
+
+        run: cd SERVERLESS_AWS_API_DEVOPS/AppAWSDeploy
+          nitric up  stack update -s dev --non-interactive
