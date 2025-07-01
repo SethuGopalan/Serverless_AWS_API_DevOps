@@ -28,41 +28,31 @@ jobs:
           curl -fsSL https://get.pulumi.com | sh
           echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
 
-      - name: Install Nitric CLI (Robust)
+      - name: Install Nitric CLI (Correct Version)
         run: |
-          mkdir -p "$HOME/.nitric/bin"
+          NITRIC_VERSION="1.61.0"
+          NITRIC_ARCHIVE="nitric_${NITRIC_VERSION}_Linux_arm64.tar.gz"
+          NITRIC_URL="https://github.com/nitrictech/cli/releases/download/v${NITRIC_VERSION}/${NITRIC_ARCHIVE}"
 
-          NITRIC_VERSION="1.27.2"
-          NITRIC_ARCHIVE="aws_linux_x86_64.tar.gz"
-          NITRIC_URL="https://github.com/nitrictech/nitric/releases/download/v${NITRIC_VERSION}/${NITRIC_ARCHIVE}"
-
-          echo "Downloading Nitric CLI from $NITRIC_URL..."
+          echo "Downloading Nitric CLI from: $NITRIC_URL"
           curl -L "$NITRIC_URL" -o nitric-cli.tar.gz
 
+          # Create target directory
+          mkdir -p "$HOME/.nitric/bin"
+
+          # Extract to a temp directory
           TEMP_EXTRACT_DIR=$(mktemp -d)
-          echo "Extracting to $TEMP_EXTRACT_DIR"
           tar -xzf nitric-cli.tar.gz -C "$TEMP_EXTRACT_DIR"
 
-          NITRIC_BIN_PATH=$(find "$TEMP_EXTRACT_DIR" -type f -name "nitric" -executable -print -quit)
+          # Move binary to final location
+          mv "$TEMP_EXTRACT_DIR/nitric" "$HOME/.nitric/bin/nitric"
+          chmod +x "$HOME/.nitric/bin/nitric"
 
-          if [ -z "$NITRIC_BIN_PATH" ]; then
-              echo " 'nitric' binary not found!"
-              ls -R "$TEMP_EXTRACT_DIR"
-              exit 1
-          fi
+          # Add to PATH for future steps
+          echo "$HOME/.nitric/bin" >> "$GITHUB_PATH"
 
-          echo " Found nitric at $NITRIC_BIN_PATH"
-          mv "$NITRIC_BIN_PATH" "$HOME/.nitric/bin/"
-          rm -rf "$TEMP_EXTRACT_DIR"
-
-          echo "$HOME/.nitric/bin" >> $GITHUB_PATH
-          export PATH="$PATH:$HOME/.nitric/bin"
-
-          echo "Adding to GitHub Actions PATH for future steps..."
-
-          echo "$HOME/.nitric/bin" >> $GITHUB_PATH
           echo "Verifying installation..."
-          ls -l $HOME/.nitric/bin
+          ls -l "$HOME/.nitric/bin"
           which nitric || echo "nitric not found in path"
           nitric --version || echo "nitric command failed"
 
