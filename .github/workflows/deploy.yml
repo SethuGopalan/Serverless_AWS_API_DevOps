@@ -29,8 +29,14 @@ jobs:
           echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
 
       - name: Install Nitric CLI
+        shell: bash
         run: |
-          curl -sSL https://nitric.io/install.sh | bash
+          echo "Downloading Nitric install script..."
+          curl -sSL https://nitric.io/install.sh -o install-nitric.sh
+
+          echo "Running installer..."
+          bash install-nitric.sh
+
           echo "$HOME/.nitric/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
