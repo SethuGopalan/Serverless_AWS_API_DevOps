@@ -60,4 +60,4 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Deploy with Nitric
-        run: nitric stack update -s aws --non-interactive
+        run: nitric up --stack dev --non-interactive
