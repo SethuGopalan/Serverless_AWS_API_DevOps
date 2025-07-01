@@ -1,3 +1,5 @@
+name: dev
+
 # The nitric provider to use
 provider: nitric/aws@1.27.2
 # The target aws region to deploy to
