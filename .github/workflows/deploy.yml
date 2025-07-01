@@ -31,7 +31,7 @@ jobs:
       - name: Install Nitric CLI (Correct Version)
         run: |
           NITRIC_VERSION="1.61.0"
-          NITRIC_ARCHIVE="nitric_${NITRIC_VERSION}_Linux_arm64.tar.gz"
+          NITRIC_ARCHIVE="nitric_${NITRIC_VERSION}_Linux_x86_64.tar.gz"
           NITRIC_URL="https://github.com/nitrictech/cli/releases/download/v${NITRIC_VERSION}/${NITRIC_ARCHIVE}"
 
           echo "Downloading Nitric CLI from: $NITRIC_URL"
