@@ -71,4 +71,4 @@ jobs:
 
         run: |
           cd AppAWSDeploy
-          nitric up  stack update -s dev --non-interactive
+          nitric stack update -s dev --non-interactive
