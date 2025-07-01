@@ -31,7 +31,7 @@ jobs:
       - name: Install Nitric CLI (Manual Download)
         run: |
           NITRIC_VERSION="1.27.2" # Ensure this is the correct, existing version
-          NITRIC_ARCHIVE="awsft_linux_x86_64.tar.gz" # Or arm64 if your runner is ARM-based
+          NITRIC_ARCHIVE="aws_linux_x86_64.tar.gz" # Or arm64 if your runner is ARM-based
 
           # Construct the URL based on Nitric's release naming convention
           # It's crucial this URL directly points to the .tar.gz file
