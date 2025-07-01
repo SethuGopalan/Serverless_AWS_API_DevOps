@@ -70,5 +70,5 @@ jobs:
       - name: Deploy with Nitric
 
         run: |
-          cd SERVERLESS_AWS_API_DEVOPS/AppAWSDeploy
+          cd AppAWSDeploy
           nitric up  stack update -s dev --non-interactive
