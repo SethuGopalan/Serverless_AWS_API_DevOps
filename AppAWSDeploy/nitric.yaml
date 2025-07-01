@@ -1,0 +1,24 @@
+name: population-api-project
+project: serverless_population
+
+resources:
+  - name: population-api
+    type: api
+
+services:
+  - name: population-service
+    buildType: docker
+    docker:
+      dockerfile: ./python.dockerfile
+      context: ./services
+    main: services/api.py
+    match: "**/*.py"
+    env:
+      HANDLER: services/api:main
+      PORT: "4001"
+    triggers:
+      - type: http
+        target: population-api
+        routes:
+          - path: /population
+            method: GET
