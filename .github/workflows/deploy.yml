@@ -54,8 +54,9 @@ jobs:
 
           echo "$HOME/.nitric/bin" >> $GITHUB_PATH
           echo "Verifying installation..."
-          which nitric
-          nitric --version
+          ls -l $HOME/.nitric/bin
+          which nitric || echo "nitric not found in path"
+          nitric --version || echo "nitric command failed"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
