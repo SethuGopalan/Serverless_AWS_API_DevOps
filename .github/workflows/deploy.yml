@@ -28,14 +28,16 @@ jobs:
           curl -fsSL https://get.pulumi.com | sh
           echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
 
-      - name: Install Nitric CLI
-        shell: bash
+      - name: Install Nitric CLI (Manual)
         run: |
-          echo "Downloading Nitric install script..."
-          curl -sSL https://nitric.io/install.sh -o install-nitric.sh
+          NITRIC_VERSION="1.27.2"
+          NITRIC_ARCH="linux_x86_64"  # This matches the filename
+          NITRIC_URL="https://github.com/nitrictech/nitric/releases/download/v${NITRIC_VERSION}/awsft_${NITRIC_ARCH}.tar.gz"
 
-          echo "Running installer..."
-          bash install-nitric.sh
+          echo "Downloading Nitric CLI from GitHub Releases..."
+          curl -L $NITRIC_URL -o nitric-cli.tar.gz
+          mkdir -p $HOME/.nitric
+          tar -xzf nitric-cli.tar.gz -C $HOME/.nitric --strip-components=1
 
           echo "$HOME/.nitric/bin" >> $GITHUB_PATH
 
