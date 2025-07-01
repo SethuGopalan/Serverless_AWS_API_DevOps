@@ -31,12 +31,15 @@ jobs:
       - name: Install Nitric CLI (Manual)
         run: |
           NITRIC_VERSION="1.27.2"
-          NITRIC_ARCH="linux_x86_64"  # This matches the filename
+          NITRIC_ARCH="linux_x86_64"
+          mkdir -p $HOME/.nitric
+
           NITRIC_URL="https://github.com/nitrictech/nitric/releases/download/v${NITRIC_VERSION}/awsft_${NITRIC_ARCH}.tar.gz"
 
           echo "Downloading Nitric CLI from GitHub Releases..."
           curl -L $NITRIC_URL -o nitric-cli.tar.gz
-          mkdir -p $HOME/.nitric
+
+          echo "Extracting Nitric CLI..."
           tar -xzf nitric-cli.tar.gz -C $HOME/.nitric --strip-components=1
 
           echo "$HOME/.nitric/bin" >> $GITHUB_PATH
