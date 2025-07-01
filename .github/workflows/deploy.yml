@@ -59,5 +59,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Register Nitric stack
+        run: |
+          nitric stack register -f nitric.dev.yaml
+
+      - name: Update Nitric stack
+        run: |
+          nitric stack update -s dev --non-interactive
+
       - name: Deploy with Nitric
         run: nitric stack update -s dev --non-interactive
