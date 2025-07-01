@@ -1,12 +1,11 @@
-
-import json  # Required for serialization
+import json
 from nitric.resources import api
 from nitric.application import Nitric
 from nitric.context import HttpContext
 import pandas as pd
 
-# Load population data
-df = pd.read_csv("services/Data/2021_population.csv")
+# Load population data - Corrected path based on Dockerfile WORKDIR and COPY
+df = pd.read_csv("services/Data/2021_population.csv") 
 
 main = api("population-api")
 
@@ -57,7 +56,7 @@ async def get_population(ctx: HttpContext):
         }
 
         print("Sending response:", response)
-        ctx.res.body = json.dumps(response)  # This line fixes it
+        ctx.res.body = json.dumps(response)
         ctx.res.headers["Content-Type"] = "application/json"
         return
 
@@ -67,4 +66,3 @@ async def get_population(ctx: HttpContext):
         ctx.res.headers["Content-Type"] = "application/json"
 
 Nitric.run()
-

@@ -9,15 +9,15 @@ resources:
     type: api
 
 services:
-  - name: population-service
+  - name: api
     buildType: docker
     docker:
       dockerfile: ./python.dockerfile
       context: ./services
-    main: api.py
+    main: services/api.py
     match: "**/*.py"
     env:
-      HANDLER: api:main
+      HANDLER: services/api:main
       PORT: "4001"
     triggers:
       - type: http
