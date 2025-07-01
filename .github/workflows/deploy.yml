@@ -47,8 +47,15 @@ jobs:
           echo "Extracting Nitric CLI..."
           mkdir -p "$HOME/.nitric/bin"
           tar -xzf nitric-cli.tar.gz -C "$HOME/.nitric/bin" --strip-components=1
+          echo "Adding to PATH for current shell session..."
+          export PATH="$HOME/.nitric/bin:$PATH"
+
+          echo "Adding to GitHub Actions PATH for future steps..."
 
           echo "$HOME/.nitric/bin" >> $GITHUB_PATH
+          echo "Verifying installation..."
+          which nitric
+          nitric --version
 
       - name: Install dependencies
         run: pip install -r requirements.txt
