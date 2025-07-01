@@ -30,32 +30,23 @@ jobs:
 
       - name: Install Nitric CLI (Manual Download)
         run: |
-          NITRIC_VERSION="1.27.2" # Ensure this is the correct, existing version
-          NITRIC_ARCHIVE="aws_linux_x86_64.tar.gz" # Or arm64 if your runner is ARM-based
-
-          # Construct the URL based on Nitric's release naming convention
-          # It's crucial this URL directly points to the .tar.gz file
+          NITRIC_VERSION="1.27.2"
+          NITRIC_ARCHIVE="aws_linux_x86_64.tar.gz"
           NITRIC_URL="https://github.com/nitrictech/nitric/releases/download/v${NITRIC_VERSION}/${NITRIC_ARCHIVE}"
 
           echo "Downloading Nitric CLI from GitHub Releases: $NITRIC_URL"
-
-          # Use -L to follow redirects, -o to save to file, and ensure it's not silent so you see progress
           curl -L $NITRIC_URL -o nitric-cli.tar.gz
 
-          # Check if the download was successful and the file size is reasonable
           FILE_SIZE=$(stat -c%s "nitric-cli.tar.gz")
           echo "Downloaded file size: $FILE_SIZE bytes"
-          if [ "$FILE_SIZE" -lt 1000000 ]; then # Check if file is less than 1MB (arbitrary low threshold)
-              echo "Error: Downloaded file is too small. Expected a .tar.gz file, but got something else. Check URL and connectivity."
+          if [ "$FILE_SIZE" -lt 1000000 ]; then
+              echo "Error: Downloaded file is too small."
               exit 1
           fi
 
           echo "Extracting Nitric CLI..."
-          # Create the target directory if it doesn't exist
-          mkdir -p "$HOME/.nitric"
-
-          # Extract the contents. --strip-components=1 is common if the tarball has a top-level folder inside.
-          tar -xzf nitric-cli.tar.gz -C "$HOME/.nitric" --strip-components=1
+          mkdir -p "$HOME/.nitric/bin"
+          tar -xzf nitric-cli.tar.gz -C "$HOME/.nitric/bin" --strip-components=1
 
           echo "$HOME/.nitric/bin" >> $GITHUB_PATH
 
