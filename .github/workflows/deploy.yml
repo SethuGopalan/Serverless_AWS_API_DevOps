@@ -35,7 +35,7 @@ jobs:
 
           # Construct the URL based on Nitric's release naming convention
           # It's crucial this URL directly points to the .tar.gz file
-          NITRIC_URL="https://github.com/nitrictech/nitric/releases/download/v${NITRIC_VERSION}/nitric-cli-v${NITRIC_VERSION}-${NITRIC_ARCH}.tar.gz"
+          NITRIC_URL="https://github.com/nitrictech/nitric/releases/download/v${NITRIC_VERSION}/awsft_${NITRIC_ARCH}.tar.gz"
 
           echo "Downloading Nitric CLI from GitHub Releases: $NITRIC_URL"
 
