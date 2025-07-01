@@ -1,5 +1,9 @@
 name: population-api-project
 project: serverless_population
+# --- ADD THIS STACKS SECTION ---
+stacks:
+  dev: ./nitric.dev.yml # This links the 'dev' stack name to its configuration file
+# --- END STACKS SECTION ---
 
 resources:
   - name: population-api
