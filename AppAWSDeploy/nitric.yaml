@@ -18,7 +18,7 @@ services:
   - name: population-service
     buildType: docker
     docker:
-      dockerfile: ./python.dockerfile
+      dockerfile: ./services/python.dockerfile
       context: ./services
     main: api.py
     env:
@@ -34,13 +34,12 @@ services:
 
   # Custom Cognito Authorizer Function
   - name: auth-function
-    type: function
-    build:
-      docker:
-        dockerfile: ./python.dockerfile
-        context: ./services
-      main: auth.py
+    buildType: docker
+    docker:
+      dockerfile: ./services/python.dockerfile
+      context: ./services
+    main: auth.py
     env:
-      AWS_REGION: us-east-1 #  Your region
-      COGNITO_USER_POOL_ID: us-east-1_sZHfsp1Q # ✅ Replace with your actual Cognito user pool ID
+      AWS_REGION: us-east-1
+      COGNITO_USER_POOL_ID: us-east-1_sZHfsp1Q
       HANDLER: auth:handler
