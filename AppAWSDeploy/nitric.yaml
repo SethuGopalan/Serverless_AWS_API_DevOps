@@ -14,10 +14,10 @@ services:
     docker:
       dockerfile: ./python.dockerfile
       context: ./services
-    main: services/api.py
+    main: services/api/api.py
     match: "**/*.py"
     env:
-      HANDLER: services/api:main
+      HANDLER: services/api/api:main
       PORT: "4001"
     triggers:
       - type: http
