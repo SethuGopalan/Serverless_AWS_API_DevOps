@@ -15,7 +15,7 @@ services:
       dockerfile: ./python.dockerfile
       context: ./services
     main: services/api/api.py
-    match: "**/*.py"
+    match: "api/*.py"
     env:
       HANDLER: services/api/api:main
       PORT: "4001"
