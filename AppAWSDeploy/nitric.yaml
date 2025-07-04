@@ -7,17 +7,22 @@ stacks:
 resources:
   - name: population-api
     type: api
+    security:
+      - name: customCognitoAuthorizer
+        type: authorizer
+        function: auth-function
+        identitySource: method.request.header.Authorization
 
 services:
-  - name: api
+  # FastAPI Population API
+  - name: population-service
     buildType: docker
     docker:
       dockerfile: ./python.dockerfile
       context: ./services
-    main: services/api.py
-    match: "**/*.py"
+    main: api.py
     env:
-      HANDLER: services/api:main
+      HANDLER: api:main
       PORT: "4001"
     triggers:
       - type: http
@@ -25,3 +30,17 @@ services:
         routes:
           - path: /population
             method: GET
+            auth: customCognitoAuthorizer
+
+  # Custom Cognito Authorizer Function
+  - name: auth-function
+    type: function
+    build:
+      docker:
+        dockerfile: ./python.dockerfile
+        context: ./services
+      main: auth.py
+    env:
+      AWS_REGION: us-east-1 # ✅ Your region
+      COGNITO_USER_POOL_ID: us-east-1_sZHfsp1Q # ✅ Replace with your actual Cognito user pool ID
+      HANDLER: auth:handler
