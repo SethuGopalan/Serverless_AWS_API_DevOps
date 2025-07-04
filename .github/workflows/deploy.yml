@@ -2,7 +2,7 @@ name: Deploy Nitric App to AWS
 
 on:
   push:
-    branches: [master] # or your deployment branch
+    branches: [deploy] # or your deployment branch
 
 jobs:
   deploy:

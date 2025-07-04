@@ -1,16 +1,14 @@
-import json
-from nitric.resources import api
-from nitric.application import Nitric
-from nitric.context import HttpContext
-import pandas as pd
-
-# Load population data - Corrected path based on Dockerfile WORKDIR and COPY
-df = pd.read_csv("services/Data/2021_population.csv") 
-
-main = api("population-api")
-
 @main.get("/population")
 async def get_population(ctx: HttpContext):
+    # 🔐 Step 1: Verify JWT token first
+    try:
+        verify_token(ctx)
+    except Exception as auth_error:
+        ctx.res.status = 401
+        ctx.res.body = json.dumps({"error": str(auth_error)})
+        ctx.res.headers["Content-Type"] = "application/json"
+        return
+
     try:
         country = ctx.req.query.get("country", [""])[0].strip()
         year = ctx.req.query.get("year", [""])[0].strip()
@@ -64,5 +62,3 @@ async def get_population(ctx: HttpContext):
         ctx.res.status = 500
         ctx.res.body = json.dumps({"error": str(e)})
         ctx.res.headers["Content-Type"] = "application/json"
-
-Nitric.run()
