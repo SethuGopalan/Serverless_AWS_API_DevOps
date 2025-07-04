@@ -41,6 +41,6 @@ services:
         context: ./services
       main: auth.py
     env:
-      AWS_REGION: us-east-1 # ✅ Your region
+      AWS_REGION: us-east-1 #  Your region
       COGNITO_USER_POOL_ID: us-east-1_sZHfsp1Q # ✅ Replace with your actual Cognito user pool ID
       HANDLER: auth:handler
