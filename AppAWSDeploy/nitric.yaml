@@ -14,7 +14,6 @@ resources:
         identitySource: method.request.header.Authorization
 
 services:
-  # FastAPI Population API
   - name: population-service
     buildType: docker
     docker:
@@ -32,7 +31,6 @@ services:
             method: GET
             auth: customCognitoAuthorizer
 
-  # Custom Cognito Authorizer Function
   - name: auth-function
     buildType: docker
     docker:
