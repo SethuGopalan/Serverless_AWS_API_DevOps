@@ -20,6 +20,7 @@ services:
       dockerfile: ./services/python.dockerfile
       context: ./services
     main: api.py
+    match: "api.py" # <--- ADD THIS LINE BACK, SPECIFIC TO api.py
     env:
       HANDLER: api:main
       PORT: "4001"
@@ -37,6 +38,7 @@ services:
       dockerfile: ./services/python.dockerfile
       context: ./services
     main: auth.py
+    match: "auth.py" # <--- ADD THIS LINE, SPECIFIC TO auth.py
     env:
       AWS_REGION: us-east-1
       COGNITO_USER_POOL_ID: us-east-1_sZHfsp1Q
