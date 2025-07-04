@@ -3,7 +3,7 @@ from nitric.resources import api
 from nitric.application import Nitric
 from nitric.context import HttpContext
 import pandas as pd
-from .auth import verify_token  # Make sure this path is correct
+# from .auth import verify_token  # Make sure this path is correct
 
 # Load population data
 df = pd.read_csv("services/Data/2021_population.csv")
