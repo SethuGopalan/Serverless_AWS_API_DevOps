@@ -1,6 +1,19 @@
+import json
+from nitric.resources import api
+from nitric.application import Nitric
+from nitric.context import HttpContext
+import pandas as pd
+from auth import verify_token  # Make sure this path is correct
+
+# Load population data
+df = pd.read_csv("services/Data/2021_population.csv")
+
+# Create API instance
+main = api("population-api")
+
 @main.get("/population")
 async def get_population(ctx: HttpContext):
-    # 🔐 Step 1: Verify JWT token first
+    # Step 1: Verify JWT token first
     try:
         verify_token(ctx)
     except Exception as auth_error:
@@ -62,3 +75,6 @@ async def get_population(ctx: HttpContext):
         ctx.res.status = 500
         ctx.res.body = json.dumps({"error": str(e)})
         ctx.res.headers["Content-Type"] = "application/json"
+
+# Start the app
+Nitric.run()
